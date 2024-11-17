@@ -7,13 +7,13 @@ const LeftNavbar = () => {
   useEffect(() => {
     fetch("https://openapi.programming-hero.com/api/news/categories")
       .then((res) => res.json())
-          .then((data) => setCategories(data.data.news_category));
+      .then((data) => setCategories(data.data.news_category));
       
   }, []);
 
   return (
     <div>
-          <h1 className="font-semibold mb-5">All Category </h1>
+          <h1 className="font-semibold mb-3 text-2xl">All Category </h1>
           <div className="flex flex-col gap-3 text-left">
               {
                   categories.map(category => <NavLink to={`/category/${category.category_id}`} key={category.category_id} className="btn justify-start font-normal">{category.category_name }</NavLink>)
