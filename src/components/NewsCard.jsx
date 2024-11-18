@@ -42,9 +42,9 @@ const NewsCard = (props = {}) => {
 
       {/* Details */}
       <h1 className="text-sm text-gray-600 pb-4 p-2 border-b">
-        {details.length > 100 ? `${details.slice(0, 140)}...` : details}
+        {details.length > 100 ? `${details.slice(0, 190)}...` : details}
         <Link to={`/news/${news._id}`} className="text-blue-500">
-          read more...
+         <p> read more...</p>
         </Link>
       </h1>
 
@@ -61,7 +61,7 @@ const NewsCard = (props = {}) => {
           {/* Views */}
           <div className="flex items-center space-x-1 text-gray-500">
             <FaEye />
-            <span className="text-sm">{total_view}</span>
+            <h2 className="text-sm">{total_view}</h2>
           </div>
         </div>
       </div>

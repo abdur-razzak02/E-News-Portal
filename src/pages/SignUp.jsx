@@ -1,13 +1,20 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { FaUser, FaLock, FaEnvelope, FaImage } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 
 const SignUp = () => {
-  const { createUser, setUser } = useContext(AuthContext);
+  const { createUser, setUser, updateUserProfile } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [error, setError] = useState('');
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
+    if (name.length < 5) {
+      return setError("Name at least 5 charecter");
+    }
     const email = e.target.email.value;
     const photo = e.target.photo.value;
     const password = e.target.password.value;
@@ -17,9 +24,17 @@ const SignUp = () => {
     createUser(email, password)
       .then((result) => {
         setUser(result.user);
+        updateUserProfile({ displayName: name, photoURL: photo })
+          .then(() => {
+          navigate('/')
+          })
+          .catch(error => {
+          console.log(error)
+        })
         e.target.reset();
       })
       .catch((error) => {
+        setError(error.code)
         console.log("error", error.message);
       });
   };
@@ -38,6 +53,7 @@ const SignUp = () => {
             <div className="flex items-center border border-gray-300 rounded-md p-2 mt-1">
               <FaUser className="text-gray-500 mr-2" />
               <input
+                required
                 type="text"
                 name="name"
                 className="w-full px-3 py-2 text-gray-700 border-none outline-none"
@@ -54,6 +70,7 @@ const SignUp = () => {
             <div className="flex items-center border border-gray-300 rounded-md p-2 mt-1">
               <FaEnvelope className="text-gray-500 mr-2" />
               <input
+                required
                 type="email"
                 name="email"
                 className="w-full px-3 py-2 text-gray-700 border-none outline-none"
@@ -86,6 +103,7 @@ const SignUp = () => {
             <div className="flex items-center border border-gray-300 rounded-md p-2 mt-1">
               <FaLock className="text-gray-500 mr-2" />
               <input
+                required
                 type="password"
                 name="password"
                 className="w-full px-3 py-2 text-gray-700 border-none outline-none"
@@ -108,6 +126,10 @@ const SignUp = () => {
               </a>
             </label>
           </div>
+
+          {
+            error && <p className="text-red-500 py-2">{error}</p>
+          }
 
           {/* Submit Button */}
           <button className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none">

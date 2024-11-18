@@ -42,7 +42,6 @@ const Navbar = () => {
           </ul>
         </div>
         <Link to={"/"} className="mx-2 lg:mx-0">
-          {" "}
           {user?.email}
         </Link>
       </div>
@@ -52,7 +51,10 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end gap-2 items-center">
-        <img src={userIcon} alt="userIcon" className="w-9" />
+        {
+          user?.photoURL ? <div><img src={ user.photoURL} alt="userImage" className="w-10 h-10 rounded-full border"/></div> : <img src={userIcon} alt="userIcon" className="w-9" />
+        }
+        
 
         {user ? (
           <button
